@@ -3,7 +3,16 @@ import { FTP_TEST_SECONDS, getRide } from '../domain/library';
 import type { Ride } from '../domain/ride';
 import { formatClock } from '../domain/format';
 import { averageWattsFromKj, ftpFromTwentyMinute } from '../domain/zones';
-import { deleteRecord, getRecord, nextPlanned, saveTestResult, state } from '../state/store';
+import {
+  deleteRecord,
+  getRecord,
+  nextPlanned,
+  saveTestResult,
+  setFeel,
+  state,
+} from '../state/store';
+import { FeelPicker } from '../components/FeelPicker';
+import { FtpSuggestionCard } from '../components/FtpSuggestionCard';
 import type { RideRecord } from '../state/types';
 import { href, navigate, rideHref } from '../router';
 import { Page } from '../ui/Page';
@@ -87,8 +96,17 @@ function Summary(props: { record: RideRecord; ride: Ride }) {
         </Show>
       </Card>
 
-      <Show when={props.ride.type === 'test'}>
-        <TestResult record={props.record} />
+      <Show when={props.ride.type !== 'test'} fallback={<TestResult record={props.record} />}>
+        <Card>
+          <div class={styles.feel}>
+            <h2 class={styles.formTitle}>How did that feel?</h2>
+            <FeelPicker
+              value={props.record.feel}
+              onChange={(feel) => setFeel(props.record.id, feel)}
+            />
+          </div>
+        </Card>
+        <FtpSuggestionCard />
       </Show>
 
       <SectionTitle>Time in zones</SectionTitle>

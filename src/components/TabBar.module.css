@@ -5,7 +5,7 @@
   bottom: 0;
   z-index: var(--z-tabbar);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   height: calc(var(--tabbar-height) + var(--safe-bottom));
   padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
   background: color-mix(in srgb, var(--color-surface) 88%, transparent);

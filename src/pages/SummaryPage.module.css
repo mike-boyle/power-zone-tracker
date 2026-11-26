@@ -16,6 +16,11 @@
   font-variant-numeric: tabular-nums;
 }
 
+.feel {
+  display: grid;
+  gap: var(--space-3);
+}
+
 .heart {
   color: var(--color-heart);
 }

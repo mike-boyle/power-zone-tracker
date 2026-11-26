@@ -23,6 +23,12 @@ what's next, and a graph of the whole ride.
 - **Live heart rate** from a Bluetooth chest strap (e.g. Garmin HRM-Pro) in Chrome on
   Android: shown during rides, drawn on the ride graph, and saved with each ride
   (average and max). Pair it under **You → Heart rate monitor**.
+- **Swap** any planned ride for a similar one, a shorter one when you're short on time,
+  or a different type, and restore the original whenever you like.
+- **How did that feel?** Rate each ride; when several in a row feel easy (or too
+  hard), the app suggests nudging your FTP up or down.
+- **Progress**: fitness, fatigue and form charted from your rides' TSS, with an
+  optional projection through the rest of your program.
 - Estimated **TSS** for every ride and week, and a history of what you've ridden.
 - Works offline once loaded, and can be added to your Home Screen. Light and dark
   themes follow your system setting.

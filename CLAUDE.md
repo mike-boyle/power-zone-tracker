@@ -107,6 +107,20 @@ src/
   are stored every 5 s of ride position on the active ride, then summarised (avg/max)
   with the samples on the saved record. Pairing must start from a tap; reconnecting
   to a remembered strap uses `navigator.bluetooth.getDevices()` where the browser has it.
+- **Swapping** replaces a planned ride's `rideId` and keeps the plan's choice in
+  `originalRideId` (`swapPlannedRide`); swapping back clears it. Options come from
+  `domain/swap.ts`: same type and similar TSS, shorter, or any type. Tests aren't swappable.
+- **Ride feel** (`domain/feel.ts`): rated after a ride. `suggestFtpChange` proposes +3%
+  after 3 easy rides in a row (including a PZ or Max ride), or −4% when 2 of the last 3
+  felt too hard, counting only rides at the current FTP and ignoring recovery and tests.
+  A dismissal is stored by suggestion key, so a new streak can suggest again.
+- **Fitness / fatigue / form** (`domain/load.ts`): the standard CTL/ATL/TSB model
+  (42- and 7-day time constants, form = yesterday's fitness − fatigue). The Progress
+  page can project the rest of the plan by spreading remaining rides from tomorrow.
+- **Charts** follow the dataviz skill: one y-axis per panel (form gets its own panel),
+  2px lines, hairline grid, crosshair readout plus keyboard and a table view. Series
+  colours are `--chart-1..3` in `tokens.css`, validated with the skill's palette
+  validator against this app's light and dark card surfaces. Re-run it if they change.
 - **Google Fit sync isn't possible from a web app**: the Fit APIs are shut down at the
   end of 2026, and Health Connect is Android-app only. The cloud Google Health API can
   write workouts but needs an owner-created Google Cloud project and OAuth client.

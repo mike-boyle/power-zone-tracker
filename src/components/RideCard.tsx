@@ -7,15 +7,42 @@ import styles from './RideCard.module.css';
 
 export type RideStatus = 'done' | 'skipped' | 'next' | 'partial';
 
+/** A ride summary card. Pass `href` to link to it, or `onSelect` to make it a button. */
 export function RideCard(props: {
   ride: Ride;
-  href: string;
+  href?: string;
+  onSelect?: () => void;
+  eyebrow?: string;
+  status?: RideStatus;
+  aside?: JSX.Element;
+}) {
+  const className = () => cx(styles.card, props.status && styles[props.status]);
+  return (
+    <Show
+      when={props.onSelect}
+      fallback={
+        <a class={className()} href={props.href}>
+          <CardBody {...props} />
+        </a>
+      }
+    >
+      {(onSelect) => (
+        <button type="button" class={cx(className(), styles.button)} onClick={() => onSelect()()}>
+          <CardBody {...props} />
+        </button>
+      )}
+    </Show>
+  );
+}
+
+function CardBody(props: {
+  ride: Ride;
   eyebrow?: string;
   status?: RideStatus;
   aside?: JSX.Element;
 }) {
   return (
-    <a class={cx(styles.card, props.status && styles[props.status])} href={props.href}>
+    <>
       <div class={styles.top}>
         <TypeBadge type={props.ride.type} />
         <Show when={props.eyebrow}>
@@ -35,7 +62,7 @@ export function RideCard(props: {
         </span>
         {props.aside}
       </div>
-    </a>
+    </>
   );
 }
 

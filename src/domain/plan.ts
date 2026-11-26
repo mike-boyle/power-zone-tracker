@@ -11,6 +11,8 @@ import {
 export interface PlannedRide {
   slot: SlotKind;
   rideId: string;
+  /** Set when the rider swapped this ride: what the plan originally had. */
+  originalRideId?: string;
 }
 
 export interface PlannedWeek {

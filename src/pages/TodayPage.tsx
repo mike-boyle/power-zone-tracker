@@ -13,7 +13,10 @@ import {
   weekRiddenTss,
 } from '../state/store';
 import type { ActivePlan } from '../state/types';
-import { href, rideHref } from '../router';
+import { href, rideHref, swapHref } from '../router';
+import { canSwap } from '../domain/swap';
+import { FtpSuggestionCard } from '../components/FtpSuggestionCard';
+import { FitnessSummaryCard } from '../components/FitnessSummaryCard';
 import { Page } from '../ui/Page';
 import { Card, SectionTitle } from '../ui/Card';
 import { Button } from '../ui/Button';
@@ -48,6 +51,9 @@ export function TodayPage() {
           </div>
         </Card>
       </Show>
+
+      <FtpSuggestionCard />
+      <FitnessSummaryCard />
 
       <Show when={state.plan} fallback={<NoPlan />}>
         {(plan) => <PlanToday plan={plan()} />}
@@ -169,9 +175,20 @@ function PlanToday(props: { plan: ActivePlan }) {
               />
               <div class={styles.actions}>
                 <StartRideButton rideId={ride().id} planRef={ref()} label="Start ride" />
-                <Button variant="ghost" block onClick={() => setSkipped(n().week, n().index, true)}>
-                  Skip this one
-                </Button>
+                <div class={styles.secondary}>
+                  <Show when={canSwap(ride())}>
+                    <Button variant="ghost" block href={href(swapHref(n().week, n().index))}>
+                      Swap
+                    </Button>
+                  </Show>
+                  <Button
+                    variant="ghost"
+                    block
+                    onClick={() => setSkipped(n().week, n().index, true)}
+                  >
+                    Skip
+                  </Button>
+                </div>
               </div>
             </>
           );

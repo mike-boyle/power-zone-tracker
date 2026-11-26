@@ -51,6 +51,16 @@ const TABS: Tab[] = [
     ),
   },
   {
+    label: 'Progress',
+    path: '/progress',
+    matches: ['progress'],
+    icon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path {...stroke} d="M3 17l5-5 4 3 8-9M15 6h5v5" />
+      </svg>
+    ),
+  },
+  {
     label: 'You',
     path: '/you',
     matches: ['you', 'summary'],

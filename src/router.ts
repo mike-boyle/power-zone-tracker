@@ -13,6 +13,8 @@ export type Route =
   | { name: 'plan' }
   | { name: 'library' }
   | { name: 'ride'; id: string; week?: number; index?: number }
+  | { name: 'swap'; week: number; index: number }
+  | { name: 'progress' }
   | { name: 'play' }
   | { name: 'summary'; id: string }
   | { name: 'you' }
@@ -57,6 +59,15 @@ export function parseRoute(raw: string): Route {
         ...(week !== undefined && index !== undefined ? { week, index } : {}),
       };
     }
+    case 'swap': {
+      const week = num('week');
+      const index = num('index');
+      return week !== undefined && index !== undefined
+        ? { name: 'swap', week, index }
+        : { name: 'notFound' };
+    }
+    case 'progress':
+      return { name: 'progress' };
     case 'play':
       return { name: 'play' };
     case 'summary':
@@ -90,6 +101,10 @@ export function navigate(path: string, options: { replace?: boolean } = {}): voi
 export function rideHref(rideId: string, week?: number, index?: number): string {
   const base = `/ride/${encodeURIComponent(rideId)}`;
   return week !== undefined && index !== undefined ? `${base}?week=${week}&index=${index}` : base;
+}
+
+export function swapHref(week: number, index: number): string {
+  return `/swap?week=${week}&index=${index}`;
 }
 
 export function goBack(fallback: string): void {

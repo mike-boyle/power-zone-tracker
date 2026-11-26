@@ -1,5 +1,6 @@
 import type { PlannedWeek } from '../domain/plan';
 import type { DaysPerWeek } from '../domain/programs';
+import type { Feel } from '../domain/feel';
 
 export interface PlanRef {
   planId: string;
@@ -47,6 +48,8 @@ export interface RideRecord {
   planRef?: PlanRef;
   testResult?: { averageWatts: number; ftp: number };
   heartRate?: RecordedHeartRate;
+  /** How the ride felt, rated on the summary screen. */
+  feel?: Feel;
 }
 
 export interface RecordedHeartRate {
@@ -75,7 +78,8 @@ export interface ActiveRide {
 export interface FtpEntry {
   date: string;
   ftp: number;
-  source: 'manual' | 'test';
+  /** 'feel' = accepted a suggestion based on how rides felt. */
+  source: 'manual' | 'test' | 'feel';
 }
 
 export interface Settings {
@@ -86,6 +90,8 @@ export interface Settings {
   voice: boolean;
   /** The Bluetooth heart rate strap paired last, to reconnect to automatically. */
   hrDevice: { id: string; name: string } | null;
+  /** Key of the FTP suggestion the rider said "not now" to. */
+  dismissedFtpSuggestion: string | null;
 }
 
 export interface AppState {

@@ -12,6 +12,8 @@ import { PlayerPage } from './pages/PlayerPage';
 import { SummaryPage } from './pages/SummaryPage';
 import { YouPage } from './pages/YouPage';
 import { NotFoundPage } from './pages/NotFoundPage';
+import { SwapPage } from './pages/SwapPage';
+import { ProgressPage } from './pages/ProgressPage';
 
 /** Narrow the current route to one with params, for `<Match>`'s keyed callback. */
 function routeNamed<N extends Route['name']>(route: () => Route, name: N) {
@@ -27,6 +29,7 @@ export function App() {
   const programRoute = routeNamed(route, 'program');
   const rideRoute = routeNamed(route, 'ride');
   const summaryRoute = routeNamed(route, 'summary');
+  const swapRoute = routeNamed(route, 'swap');
 
   return (
     <>
@@ -49,6 +52,10 @@ export function App() {
         </Match>
         <Match when={rideRoute()}>
           {(r) => <RideDetailPage id={r().id} week={r().week} index={r().index} />}
+        </Match>
+        <Match when={swapRoute()}>{(r) => <SwapPage week={r().week} index={r().index} />}</Match>
+        <Match when={route().name === 'progress'}>
+          <ProgressPage />
         </Match>
         <Match when={route().name === 'play'}>
           <PlayerPage />

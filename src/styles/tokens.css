@@ -139,6 +139,14 @@
   /* Heart rate: pink, so it doesn't read as a zone colour. */
   --color-heart: var(--p-pink-500);
 
+  /* Chart series, in fixed categorical order (validated for CVD on both surfaces). */
+  --chart-1: #2a78d6;
+  --chart-2: #eb6834;
+  --chart-3: #1baf7a;
+  --chart-grid: var(--p-gray-100);
+  --chart-axis: var(--p-gray-300);
+  --chart-bar: color-mix(in srgb, var(--color-text) 16%, transparent);
+
   --shadow-1: 0 1px 2px rgb(16 20 28 / 0.06), 0 1px 1px rgb(16 20 28 / 0.04);
   --shadow-2: 0 6px 24px rgb(16 20 28 / 0.12), 0 2px 6px rgb(16 20 28 / 0.06);
 
@@ -189,6 +197,13 @@
     --color-overlay: rgb(0 0 0 / 0.6);
     --color-track: var(--p-gray-800);
     --color-heart: var(--p-pink-400);
+
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --chart-grid: var(--p-gray-850);
+    --chart-axis: var(--p-gray-700);
+    --chart-bar: color-mix(in srgb, var(--color-text) 20%, transparent);
 
     --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-2: 0 8px 28px rgb(0 0 0 / 0.5);

@@ -4,7 +4,8 @@ import { RIDE_TYPE_LABEL, type Ride } from '../domain/ride';
 import { intensityFactor } from '../domain/tss';
 import { plannedStatus, setSkipped, state } from '../state/store';
 import type { PlanRef } from '../state/types';
-import { href } from '../router';
+import { href, swapHref } from '../router';
+import { canSwap } from '../domain/swap';
 import { Page } from '../ui/Page';
 import { Card, SectionTitle } from '../ui/Card';
 import { Button } from '../ui/Button';
@@ -37,6 +38,11 @@ function Detail(props: { ride: Ride; week?: number | undefined; index?: number |
     const ref = planRef();
     return ref && state.plan ? plannedStatus(state.plan, ref.week, ref.index) : undefined;
   };
+  const swappedFrom = () => {
+    const ref = planRef();
+    const original = ref && state.plan?.weeks[ref.week - 1]?.rides[ref.index]?.originalRideId;
+    return original ? getRide(original) : undefined;
+  };
   const subtitle = () => {
     const ref = planRef();
     const count = ref ? state.plan?.weeks[ref.week - 1]?.rides.length : undefined;
@@ -57,23 +63,34 @@ function Detail(props: { ride: Ride; week?: number | undefined; index?: number |
             planRef={planRef()}
             label={status() === 'done' || status() === 'partial' ? 'Ride it again' : 'Ride this'}
           />
-          <Show when={planRef() && (status() === 'next' || status() === 'todo')}>
-            <Button
-              variant="ghost"
-              block
-              onClick={() => setSkipped(planRef()!.week, planRef()!.index, true)}
-            >
-              Skip in plan
-            </Button>
-          </Show>
-          <Show when={planRef() && status() === 'skipped'}>
-            <Button
-              variant="ghost"
-              block
-              onClick={() => setSkipped(planRef()!.week, planRef()!.index, false)}
-            >
-              Un-skip
-            </Button>
+          <Show when={planRef()}>
+            {(ref) => (
+              <div class={styles.secondary}>
+                <Show when={canSwap(props.ride) && status() !== 'done' && status() !== 'partial'}>
+                  <Button variant="ghost" block href={href(swapHref(ref().week, ref().index))}>
+                    Swap
+                  </Button>
+                </Show>
+                <Show when={status() === 'next' || status() === 'todo'}>
+                  <Button
+                    variant="ghost"
+                    block
+                    onClick={() => setSkipped(ref().week, ref().index, true)}
+                  >
+                    Skip
+                  </Button>
+                </Show>
+                <Show when={status() === 'skipped'}>
+                  <Button
+                    variant="ghost"
+                    block
+                    onClick={() => setSkipped(ref().week, ref().index, false)}
+                  >
+                    Un-skip
+                  </Button>
+                </Show>
+              </div>
+            )}
           </Show>
         </>
       }
@@ -93,6 +110,15 @@ function Detail(props: { ride: Ride; week?: number | undefined; index?: number |
       </Card>
 
       <p class={styles.description}>{props.ride.description}</p>
+
+      <Show when={swappedFrom()}>
+        {(original) => (
+          <p class={styles.notice}>
+            Swapped in for {original().name} ({original().minutes} min).{' '}
+            <a href={href(swapHref(planRef()!.week, planRef()!.index))}>Change</a>
+          </p>
+        )}
+      </Show>
 
       <Show when={props.ride.type === 'test'}>
         <Card>

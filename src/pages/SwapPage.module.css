@@ -1,0 +1,19 @@
+.muted {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.empty {
+  padding: var(--space-8) 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.restore {
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent);
+}
+
+.delta {
+  font-variant-numeric: tabular-nums;
+}

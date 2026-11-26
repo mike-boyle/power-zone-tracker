@@ -4,6 +4,7 @@ import { generatePlan, type PlannedRide, type TestOptions } from '../domain/plan
 import { getProgram, type DaysPerWeek } from '../domain/programs';
 import { estimateTss } from '../domain/tss';
 import { HR_SAMPLE_SECONDS, summarizeHeartRate } from '../domain/heartRate';
+import { suggestFtpChange, type Feel, type FtpSuggestion } from '../domain/feel';
 import { ftpFromTwentyMinute } from '../domain/zones';
 import { loadState, newId, normalize, saveState } from './storage';
 import {
@@ -95,6 +96,24 @@ export function setSkipped(week: number, index: number, skipped: boolean): void 
     const key = progressKey(week, index);
     if (skipped) s.plan.progress[key] = { status: 'skipped', at: new Date().toISOString() };
     else if (s.plan.progress[key]?.status === 'skipped') delete s.plan.progress[key];
+  });
+}
+
+/**
+ * Replace a planned ride with another from the library. The original is
+ * remembered so it can be restored; swapping back to it clears the swap. A
+ * skipped ride that gets swapped is un-skipped, since the rider wants to do it.
+ */
+export function swapPlannedRide(week: number, index: number, rideId: string): void {
+  if (!getRide(rideId)) return;
+  commit((s) => {
+    const planned = s.plan?.weeks[week - 1]?.rides[index];
+    if (!s.plan || !planned || planned.rideId === rideId) return;
+    if (planned.originalRideId === rideId) delete planned.originalRideId;
+    else planned.originalRideId ??= planned.rideId;
+    planned.rideId = rideId;
+    const key = progressKey(week, index);
+    if (s.plan.progress[key]?.status === 'skipped') delete s.plan.progress[key];
   });
 }
 
@@ -287,6 +306,31 @@ export function saveTestResult(recordId: string, averageWatts: number): number |
   });
   setFtp(ftp, 'test');
   return ftp;
+}
+
+export function setFeel(recordId: string, feel: Feel): void {
+  commit((s) => {
+    const record = s.history.find((r) => r.id === recordId);
+    if (record) record.feel = feel;
+  });
+}
+
+/** The FTP change suggested by recent ride ratings, unless the rider dismissed it. */
+export function currentFtpSuggestion(): FtpSuggestion | null {
+  const suggestion = suggestFtpChange(
+    state.history,
+    state.settings.ftp,
+    (rideId) => getRide(rideId)?.type,
+  );
+  return suggestion && suggestion.key !== state.settings.dismissedFtpSuggestion ? suggestion : null;
+}
+
+export function acceptFtpSuggestion(suggestion: FtpSuggestion): void {
+  setFtp(suggestion.to, 'feel');
+}
+
+export function dismissFtpSuggestion(suggestion: FtpSuggestion): void {
+  setSetting('dismissedFtpSuggestion', suggestion.key);
 }
 
 export function deleteRecord(id: string): void {

@@ -1,6 +1,8 @@
 import { For, Show, createMemo, createSignal } from 'solid-js';
 import { FTP_TEST_RIDE_ID, getRide } from '../domain/library';
 import { formatClock, formatDate } from '../domain/format';
+import { FEEL_LABEL } from '../domain/feel';
+import type { FtpEntry } from '../state/types';
 import { exportData, importData, resetAll, setSetting, state } from '../state/store';
 import { href, rideHref } from '../router';
 import { wakeLockSupported } from '../lib/wakeLock';
@@ -15,6 +17,12 @@ import { HeartRateMonitorCard } from '../components/HeartRateMonitorCard';
 import styles from './YouPage.module.css';
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+
+const FTP_SOURCE_LABEL: Record<FtpEntry['source'], string> = {
+  manual: 'Entered',
+  test: 'FTP test',
+  feel: 'From ride feel',
+};
 
 export function YouPage() {
   const [confirmReset, setConfirmReset] = createSignal(false);
@@ -80,9 +88,7 @@ export function YouPage() {
               {(entry) => (
                 <li>
                   <span>{formatDate(entry.date)}</span>
-                  <span class={styles.muted}>
-                    {entry.source === 'test' ? 'FTP test' : 'Entered'}
-                  </span>
+                  <span class={styles.muted}>{FTP_SOURCE_LABEL[entry.source]}</span>
                   <strong>{entry.ftp} W</strong>
                 </li>
               )}
@@ -151,6 +157,9 @@ export function YouPage() {
                       {formatDate(record.finishedAt)} · {formatClock(record.seconds)} · {record.tss}{' '}
                       TSS
                       <Show when={record.heartRate}>{(hr) => <> · ♥ {hr().avg} avg</>}</Show>
+                      <Show when={record.feel}>
+                        {(feel) => <> · felt {FEEL_LABEL[feel()].toLowerCase()}</>}
+                      </Show>
                     </span>
                   </a>
                 </li>

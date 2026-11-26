@@ -1,0 +1,264 @@
+.wrap {
+  display: grid;
+  gap: var(--space-2);
+}
+
+/* ── Readout ──────────────────────────────────────────────────────────── */
+
+.readout {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.readoutDate {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+}
+
+.projectedTag {
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1px var(--space-1-5);
+  border-radius: var(--radius-pill);
+  border: 1px dashed var(--color-border-strong);
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.values dt {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  order: 2;
+}
+
+.values div {
+  display: flex;
+  flex-direction: column;
+}
+
+.values dd {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text);
+}
+
+/* ── Plot ─────────────────────────────────────────────────────────────── */
+
+.plot {
+  touch-action: pan-y;
+  cursor: crosshair;
+  border-radius: var(--radius-sm);
+}
+
+.svg {
+  display: block;
+  overflow: visible;
+}
+
+.grid {
+  stroke: var(--chart-grid);
+  stroke-width: 1;
+}
+
+.axis {
+  stroke: var(--chart-axis);
+  stroke-width: 1;
+}
+
+.tick {
+  fill: var(--color-text-subtle);
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.panelLabel {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+}
+
+.band {
+  fill: var(--color-text-subtle);
+  font-size: 10px;
+}
+
+.endLabel {
+  fill: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: var(--weight-semibold);
+  paint-order: stroke;
+  stroke: var(--color-surface);
+  stroke-width: 3px;
+}
+
+.bar {
+  fill: var(--chart-bar);
+}
+
+.barProjected {
+  opacity: 0.5;
+}
+
+.line {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.series1 {
+  stroke: var(--chart-1);
+}
+
+.series2 {
+  stroke: var(--chart-2);
+}
+
+.series3 {
+  stroke: var(--chart-3);
+}
+
+.dashed {
+  stroke-dasharray: 4 4;
+}
+
+.today {
+  stroke: var(--chart-axis);
+  stroke-width: 1;
+}
+
+.todayLabel {
+  fill: var(--color-text-muted);
+  font-size: 10px;
+  font-weight: var(--weight-semibold);
+}
+
+.crosshair line {
+  stroke: var(--color-text-muted);
+  stroke-width: 1;
+}
+
+.crosshair circle {
+  stroke: var(--color-surface);
+  stroke-width: 2;
+}
+
+.dot1 {
+  fill: var(--chart-1);
+}
+
+.dot2 {
+  fill: var(--chart-2);
+}
+
+.dot3 {
+  fill: var(--chart-3);
+}
+
+/* ── Legend ───────────────────────────────────────────────────────────── */
+
+.legend {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+}
+
+.key {
+  width: 14px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.key1 {
+  background: var(--chart-1);
+}
+
+.key2 {
+  background: var(--chart-2);
+}
+
+.key3 {
+  background: var(--chart-3);
+}
+
+.barKey {
+  width: 6px;
+  height: 10px;
+  border-radius: 2px 2px 0 0;
+  background: var(--chart-bar);
+}
+
+.dashKey {
+  width: 14px;
+  border-top: 2px dashed var(--color-text-muted);
+}
+
+/* ── Table view ───────────────────────────────────────────────────────── */
+
+.tableView summary {
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-accent);
+  cursor: pointer;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: var(--space-1-5) var(--space-1);
+  text-align: right;
+  border-top: 1px solid var(--color-border);
+}
+
+.table th:first-child {
+  text-align: left;
+}
+
+.table thead th {
+  border-top: none;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+}
+
+.table tbody th {
+  font-weight: var(--weight-medium);
+}
+
+.projectedRow {
+  color: var(--color-text-muted);
+}
