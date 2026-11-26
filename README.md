@@ -32,10 +32,13 @@ npm install
 npm run dev
 ```
 
-Open the "Network" URL Vite prints on your phone (same Wi-Fi) to try it out. Screen
-wake lock and offline support need HTTPS, so for regular use deploy it: pushes to
-`main` deploy to GitHub Pages once Pages is enabled (Settings → Pages → Source:
-GitHub Actions).
+Live at **https://mike-boyle.github.io/power-zone-tracker/**. Every push to `main`
+deploys there through GitHub Actions. On your phone, open it and use **Add to Home
+Screen** so it runs full-screen and keeps its data.
+
+For local testing, open the "Network" URL Vite prints on your phone (same Wi-Fi).
+Screen wake lock and offline support only work over HTTPS, so use the live site for
+real rides.
 
 ## Development
 

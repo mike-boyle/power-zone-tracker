@@ -26,9 +26,11 @@ npm run preview    # serve dist/ on :4173 (service worker only runs in this mode
 npm run format     # prettier --write
 ```
 
-CI (`.github/workflows/ci.yml`) runs `check` and `build` on every push to `main`.
-It deploys `dist/` to GitHub Pages only if Pages is enabled for the repo
-(Settings → Pages → Source: GitHub Actions); otherwise it skips the deploy step.
+CI (`.github/workflows/ci.yml`) runs `check` and `build` on every push to `main`,
+then deploys `dist/` to GitHub Pages (enabled 2026-11-25, source: GitHub Actions).
+Live at https://mike-boyle.github.io/power-zone-tracker/ — every push to `main` ships
+to the owner's phone, so keep `main` working. The repo is private; the Pages site is
+public, which is fine because the app holds no secrets (user data is on-device only).
 
 ## Stack and why
 
