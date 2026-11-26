@@ -11,7 +11,7 @@ export function ProgramsPage() {
   return (
     <Page
       title="Programs"
-      subtitle="Each one builds in 4-week blocks: three weeks up, one easier week that ends with an FTP test."
+      subtitle="Each one builds in 4-week blocks: three weeks up, then an easier week. FTP tests between blocks are optional."
       back="/plan"
     >
       <For each={PROGRAMS}>

@@ -7,8 +7,9 @@ what's next, and a graph of the whole ride.
 
 ## What's in it
 
-- **Programs** built in 4-week blocks (three weeks building, one lighter week ending
-  in an FTP test), for 3 to 6 rides a week:
+- **Programs** built in 4-week blocks (three weeks building, then a lighter week), for 3
+  to 6 rides a week. You choose whether to test FTP at the start, between blocks, and at
+  the end:
   - **Comeback** (4 weeks): easing back in after time off
   - **Base Builder** (8 weeks): rebuilding an aerobic base
   - **Endurance 12**: mostly endurance, fewer hard days

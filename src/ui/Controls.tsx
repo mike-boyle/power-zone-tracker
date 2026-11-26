@@ -38,13 +38,21 @@ export function Toggle(props: {
   return (
     <label class={styles.toggleRow} for={id}>
       <span class={styles.toggleText}>
-        <span class={styles.toggleLabel}>{props.label}</span>
-        {props.description && <span class={styles.toggleDescription}>{props.description}</span>}
+        <span class={styles.toggleLabel} id={`${id}-label`}>
+          {props.label}
+        </span>
+        {props.description && (
+          <span class={styles.toggleDescription} id={`${id}-description`}>
+            {props.description}
+          </span>
+        )}
       </span>
       <input
         id={id}
         type="checkbox"
         role="switch"
+        aria-labelledby={`${id}-label`}
+        aria-describedby={props.description ? `${id}-description` : undefined}
         class={styles.switch}
         checked={props.checked}
         onChange={(e) => props.onChange(e.currentTarget.checked)}

@@ -1,6 +1,6 @@
 /**
  * Training programs. Each one is periodized in 4-week blocks (3 weeks of
- * building, 1 lighter week ending in an FTP test), the standard 3:1 loading
+ * building, 1 lighter week that can end in an FTP test), the standard 3:1 loading
  * pattern. Weekly load is expressed as a target TSS; the plan generator picks
  * rides from the library to meet it.
  */
@@ -28,7 +28,7 @@ export interface Program {
   /** Load multiplier per week. */
   load: number[];
   kinds: WeekKind[];
-  /** Weeks (1-based) whose final ride is an FTP test. */
+  /** Weeks (1-based) whose final ride can be an FTP test (see `TestOptions` in plan.ts). */
   testWeeks: number[];
   /** The ride mix for a normal week, in the order the rides should be done. */
   patterns: Record<DaysPerWeek, SlotKind[]>;
@@ -58,7 +58,7 @@ export const PROGRAMS: readonly Program[] = [
     name: 'Comeback',
     tagline: 'Ease back in after time off',
     description:
-      'Four gentle weeks. The first is all easy endurance, then one Power Zone ride a week joins in. No max efforts. It finishes with an FTP test so your next program starts from an accurate number.',
+      'Four gentle weeks. The first is all easy endurance, then one Power Zone ride a week joins in. No max efforts. By default it finishes with an FTP test, so your next program starts from an accurate number.',
     goodFor: 'Returning after a long break',
     weeks: 4,
     intensity: 1,

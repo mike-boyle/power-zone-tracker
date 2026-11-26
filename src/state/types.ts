@@ -14,6 +14,9 @@ export interface ActivePlan {
   programId: string;
   daysPerWeek: DaysPerWeek;
   startWithTest: boolean;
+  /** Missing on plans saved before test options existed; those had every test. */
+  betweenBlockTests?: boolean;
+  finalTest?: boolean;
   seed: number;
   startedAt: string;
   /** The generated plan, stored so later library changes never reshuffle a plan in progress. */

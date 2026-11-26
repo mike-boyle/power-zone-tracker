@@ -88,7 +88,9 @@ src/
   calibrated against typical TSS for each class type/length. Don't copy class data
   from third-party sites (e.g. homefitnessbuddy's community-sourced database) into
   the repo.
-- **Programs** use 3:1 blocks (3 build weeks, 1 lighter week ending in an FTP test).
+- **Programs** use 3:1 blocks (3 build weeks, 1 lighter week). FTP tests are optional per plan
+  (`TestOptions`: start, between blocks, final); `program.testWeeks` says which lighter
+  weeks _can_ end in a test, and `weekHasTest` applies the choice.
   Weekly target TSS = `baseWeeklyTss × load[week] × daysFactor(days)`. The generator
   splits it across the week's slots by weight and picks the closest ride, with a
   repeat penalty for variety. Plans store the generated ride ids, so library changes

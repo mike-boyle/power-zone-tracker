@@ -22,12 +22,37 @@ export interface PlannedWeek {
   rides: PlannedRide[];
 }
 
-export interface PlanOptions {
-  daysPerWeek: DaysPerWeek;
+/** Which FTP tests a plan includes. */
+export interface TestOptions {
   /** Make the first ride of week 1 an FTP test. */
   startWithTest: boolean;
+  /** End each lighter week between blocks (weeks 4, 8, …) with a test. */
+  betweenBlockTests: boolean;
+  /** End the program's last week with a test. */
+  finalTest: boolean;
+}
+
+export const DEFAULT_TESTS: TestOptions = {
+  startWithTest: false,
+  betweenBlockTests: true,
+  finalTest: true,
+};
+
+export interface PlanOptions extends TestOptions {
+  daysPerWeek: DaysPerWeek;
   /** Varies ride choice between plans; the same seed always gives the same plan. */
   seed: number;
+}
+
+/** Whether a week ends with an FTP test, given the program's test weeks and the chosen options. */
+export function weekHasTest(program: Program, weekNumber: number, tests: TestOptions): boolean {
+  if (!program.testWeeks.includes(weekNumber)) return false;
+  return weekNumber === program.weeks ? tests.finalTest : tests.betweenBlockTests;
+}
+
+/** True if the program has test weeks before its final week. */
+export function hasBetweenBlockTests(program: Program): boolean {
+  return program.testWeeks.some((w) => w !== program.weeks);
 }
 
 /** Relative share of the week's TSS each slot should take. */
@@ -86,8 +111,7 @@ export function weekSlots(program: Program, weekNumber: number, options: PlanOpt
     });
   }
 
-  const hasTest = program.testWeeks.includes(weekNumber);
-  if (hasTest) {
+  if (weekHasTest(program, weekNumber, options)) {
     slots[slots.length - 1] = 'test';
     // An easy ride right before the test, unless the week already has one.
     if (!slots.includes('recovery') && slots.length >= 3) slots[slots.length - 2] = 'recovery';
@@ -154,7 +178,7 @@ export function generatePlan(program: Program, options: PlanOptions): PlannedWee
       rides.push({ slot, rideId: ride.id });
     }
 
-    weeks.push({ number, kind, hasTest: program.testWeeks.includes(number), targetTss, rides });
+    weeks.push({ number, kind, hasTest: weekHasTest(program, number, options), targetTss, rides });
   }
   return weeks;
 }

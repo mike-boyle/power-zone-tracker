@@ -1,6 +1,13 @@
 import { For, Show, createMemo, createSignal } from 'solid-js';
 import { getRide } from '../domain/library';
-import { generatePlan, plannedMinutes, plannedTss } from '../domain/plan';
+import {
+  DEFAULT_TESTS,
+  generatePlan,
+  hasBetweenBlockTests,
+  plannedMinutes,
+  plannedTss,
+  type TestOptions,
+} from '../domain/plan';
 import { DAY_OPTIONS, getProgram, type DaysPerWeek, type Program } from '../domain/programs';
 import { RIDE_TYPE_LABEL, type RideType } from '../domain/ride';
 import { plural } from '../domain/format';
@@ -18,6 +25,12 @@ import { NotFoundPage } from './NotFoundPage';
 import styles from './ProgramSetupPage.module.css';
 
 const SIX_WEEKS_MS = 42 * 24 * 60 * 60 * 1000;
+
+/** [4] → "week 4", [4, 8] → "weeks 4 and 8", [4, 8, 12] → "weeks 4, 8 and 12". */
+function weekList(weeks: number[]): string {
+  if (weeks.length <= 1) return `week ${weeks[0] ?? ''}`;
+  return `weeks ${weeks.slice(0, -1).join(', ')} and ${weeks[weeks.length - 1]}`;
+}
 
 export function ProgramSetupPage(props: { id: string }) {
   return (
@@ -39,15 +52,20 @@ function Setup(props: { program: Program }) {
   const [startWithTest, setStartWithTest] = createSignal(
     props.program.id === 'comeback' ? state.settings.ftp === null : ftpStale,
   );
+  const [betweenBlockTests, setBetweenBlockTests] = createSignal(DEFAULT_TESTS.betweenBlockTests);
+  const [finalTest, setFinalTest] = createSignal(DEFAULT_TESTS.finalTest);
   const [seed, setSeed] = createSignal(newPlanSeed());
   const [confirming, setConfirming] = createSignal(false);
 
+  const tests = (): TestOptions => ({
+    startWithTest: startWithTest(),
+    betweenBlockTests: betweenBlockTests(),
+    finalTest: finalTest(),
+  });
+  const betweenWeeks = () => props.program.testWeeks.filter((w) => w !== props.program.weeks);
+
   const weeks = createMemo(() =>
-    generatePlan(props.program, {
-      daysPerWeek: days(),
-      startWithTest: startWithTest(),
-      seed: seed(),
-    }),
+    generatePlan(props.program, { daysPerWeek: days(), seed: seed(), ...tests() }),
   );
   const stats = createMemo(() => {
     const tss = weeks().map(plannedTss);
@@ -74,7 +92,7 @@ function Setup(props: { program: Program }) {
   });
 
   const start = () => {
-    startProgram(props.program.id, days(), startWithTest(), seed());
+    startProgram(props.program.id, days(), tests(), seed());
     navigate('/', { replace: true });
   };
 
@@ -111,17 +129,39 @@ function Setup(props: { program: Program }) {
         onChange={setDays}
       />
 
+      <SectionTitle>FTP tests</SectionTitle>
       <Card>
-        <Toggle
-          label="Start with an FTP test"
-          description={
-            state.settings.ftp === null
-              ? "You haven't set an FTP yet, so this is recommended."
-              : `Your FTP is ${state.settings.ftp} W. Test first if it's more than a few weeks old.`
-          }
-          checked={startWithTest()}
-          onChange={setStartWithTest}
-        />
+        <div class={styles.toggles}>
+          <Toggle
+            label="Start with a test"
+            description={
+              state.settings.ftp === null
+                ? "You haven't set an FTP yet, so this is recommended."
+                : `Your FTP is ${state.settings.ftp} W. Test first if it's more than a few weeks old.`
+            }
+            checked={startWithTest()}
+            onChange={setStartWithTest}
+          />
+          <Show when={hasBetweenBlockTests(props.program)}>
+            <Toggle
+              label="Test between blocks"
+              description={`End ${weekList(betweenWeeks())} with a test, so your zones keep up as you get fitter.`}
+              checked={betweenBlockTests()}
+              onChange={setBetweenBlockTests}
+            />
+          </Show>
+          <Toggle
+            label="Finish with a test"
+            description="End the last week with a test to see how far you've come."
+            checked={finalTest()}
+            onChange={setFinalTest}
+          />
+        </div>
+        <Show when={!betweenBlockTests() && !finalTest() && !startWithTest()}>
+          <p class={styles.note}>
+            With no tests, update your FTP yourself on the You tab when rides start to feel easy.
+          </p>
+        </Show>
       </Card>
 
       <SectionTitle

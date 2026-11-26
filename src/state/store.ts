@@ -1,6 +1,6 @@
 import { createStore, produce, unwrap } from 'solid-js/store';
 import { getRide } from '../domain/library';
-import { generatePlan, type PlannedRide } from '../domain/plan';
+import { generatePlan, type PlannedRide, type TestOptions } from '../domain/plan';
 import { getProgram, type DaysPerWeek } from '../domain/programs';
 import { estimateTss } from '../domain/tss';
 import { ftpFromTwentyMinute } from '../domain/zones';
@@ -59,7 +59,7 @@ export function newPlanSeed(): number {
 export function startProgram(
   programId: string,
   daysPerWeek: DaysPerWeek,
-  startWithTest: boolean,
+  tests: TestOptions,
   seed: number = newPlanSeed(),
 ) {
   const program = getProgram(programId);
@@ -68,10 +68,12 @@ export function startProgram(
     id: newId(),
     programId,
     daysPerWeek,
-    startWithTest,
+    startWithTest: tests.startWithTest,
+    betweenBlockTests: tests.betweenBlockTests,
+    finalTest: tests.finalTest,
     seed,
     startedAt: new Date().toISOString(),
-    weeks: generatePlan(program, { daysPerWeek, startWithTest, seed }),
+    weeks: generatePlan(program, { daysPerWeek, seed, ...tests }),
     progress: {},
   };
   commit((s) => {

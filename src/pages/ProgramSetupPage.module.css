@@ -14,6 +14,17 @@
   color: var(--color-text-muted);
 }
 
+.toggles {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.note {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
 .shuffle {
   font-size: var(--text-sm);
   font-weight: var(--weight-semibold);
