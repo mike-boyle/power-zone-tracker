@@ -20,6 +20,9 @@ what's next, and a graph of the whole ride.
 - **Ride player**: zone colour, watt range, interval countdown, next interval, whole-ride
   graph, countdown beeps, optional voice cues, keeps the screen awake, and survives
   the phone locking or the page reloading.
+- **Live heart rate** from a Bluetooth chest strap (e.g. Garmin HRM-Pro) in Chrome on
+  Android: shown during rides, drawn on the ride graph, and saved with each ride
+  (average and max). Pair it under **You → Heart rate monitor**.
 - Estimated **TSS** for every ride and week, and a history of what you've ridden.
 - Works offline once loaded, and can be added to your Home Screen. Light and dark
   themes follow your system setting.

@@ -5,7 +5,7 @@ const KEY = 'power-zone-tracker:v1';
 export function defaultState(): AppState {
   return {
     version: 1,
-    settings: { ftp: null, beeps: true, voice: false },
+    settings: { ftp: null, beeps: true, voice: false, hrDevice: null },
     ftpHistory: [],
     plan: null,
     history: [],

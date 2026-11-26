@@ -34,6 +34,8 @@
   --p-red-400: #f06464;
   --p-amber-500: #c98a00;
   --p-amber-400: #f0b429;
+  --p-pink-500: #e0175a;
+  --p-pink-400: #ff5c93;
 
   /* ── Primitives: zone hues (cool → hot) ───────────────────────────── */
   --p-zone-1: #7f8ca0;
@@ -134,6 +136,8 @@
   --color-warning: var(--p-amber-500);
   --color-overlay: rgb(10 12 16 / 0.45);
   --color-track: var(--p-gray-200);
+  /* Heart rate: pink, so it doesn't read as a zone colour. */
+  --color-heart: var(--p-pink-500);
 
   --shadow-1: 0 1px 2px rgb(16 20 28 / 0.06), 0 1px 1px rgb(16 20 28 / 0.04);
   --shadow-2: 0 6px 24px rgb(16 20 28 / 0.12), 0 2px 6px rgb(16 20 28 / 0.06);
@@ -184,6 +188,7 @@
     --color-warning: var(--p-amber-400);
     --color-overlay: rgb(0 0 0 / 0.6);
     --color-track: var(--p-gray-800);
+    --color-heart: var(--p-pink-400);
 
     --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
     --shadow-2: 0 8px 28px rgb(0 0 0 / 0.5);

@@ -46,6 +46,15 @@ export interface RideRecord {
   ftp: number | null;
   planRef?: PlanRef;
   testResult?: { averageWatts: number; ftp: number };
+  heartRate?: RecordedHeartRate;
+}
+
+export interface RecordedHeartRate {
+  avg: number;
+  max: number;
+  /** One reading per `interval` seconds of ride time; null where there was none. */
+  samples: (number | null)[];
+  interval: number;
 }
 
 export interface ActiveRide {
@@ -59,6 +68,8 @@ export interface ActiveRide {
   accumulatedMs: number;
   /** Epoch ms when the current running stretch began, or null when paused. */
   runningSince: number | null;
+  /** Heart rate per HR_SAMPLE_SECONDS of ride position, while a monitor is connected. */
+  hr?: (number | null)[];
 }
 
 export interface FtpEntry {
@@ -73,6 +84,8 @@ export interface Settings {
   beeps: boolean;
   /** Speak the next zone at each change. */
   voice: boolean;
+  /** The Bluetooth heart rate strap paired last, to reconnect to automatically. */
+  hrDevice: { id: string; name: string } | null;
 }
 
 export interface AppState {

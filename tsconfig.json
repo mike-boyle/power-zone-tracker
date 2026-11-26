@@ -7,7 +7,7 @@
     "moduleDetection": "force",
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "types": ["vite/client"],
+    "types": ["vite/client", "web-bluetooth"],
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "noUnusedLocals": true,

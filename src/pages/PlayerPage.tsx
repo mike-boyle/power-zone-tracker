@@ -12,7 +12,18 @@ import { getRide } from '../domain/library';
 import { totalSeconds, withTimes, type Ride, type TimedSegment } from '../domain/ride';
 import { ZONE_INFO, formatWattRange, wattRange } from '../domain/zones';
 import { formatClock, formatCountdown, formatDuration } from '../domain/format';
-import { discardRide, finishRide, pause, play, seekTo, state } from '../state/store';
+import {
+  discardRide,
+  finishRide,
+  pause,
+  play,
+  recordHeartRate,
+  seekTo,
+  state,
+} from '../state/store';
+import { HR_SAMPLE_SECONDS } from '../domain/heartRate';
+import { heartRate } from '../lib/heartRate';
+import { HeartRateBadge } from '../components/HeartRateBadge';
 import { elapsedMs, segmentIndexAt } from '../state/clock';
 import { goBack, href, navigate } from '../router';
 import { keepScreenOn, releaseScreen } from '../lib/wakeLock';
@@ -120,6 +131,16 @@ function Player(props: { ride: Ride }) {
     navigate(id ? `/summary/${id}` : '/', { replace: true });
   };
 
+  // Keep a heart rate sample every few seconds of riding while a strap is connected.
+  createEffect(() => {
+    const bpm = heartRate.bpm();
+    if (bpm !== null && running()) recordHeartRate(elapsed(), bpm);
+  });
+  const heartRateTrace = () => {
+    const samples = active()?.hr;
+    return samples?.length ? { samples, interval: HR_SAMPLE_SECONDS } : undefined;
+  };
+
   // Finish automatically when the clock runs out with the player open.
   let finished = false;
   createEffect(() => {
@@ -186,6 +207,7 @@ function Player(props: { ride: Ride }) {
       </header>
 
       <section class={cx(styles.hero, !running() && styles.heroPaused)}>
+        <HeartRateBadge class={styles.heartRate} />
         <div class={styles.zoneLine} aria-live="polite">
           <span class={styles.zoneLabel}>
             {segment().test ? 'FTP test' : `Zone ${segment().zone}`}
@@ -269,7 +291,12 @@ function Player(props: { ride: Ride }) {
       </div>
 
       <section class={styles.overview} aria-label="Whole ride">
-        <RideProfile segments={props.ride.segments} elapsed={elapsed()} class={styles.profile} />
+        <RideProfile
+          segments={props.ride.segments}
+          elapsed={elapsed()}
+          heartRate={heartRateTrace()}
+          class={styles.profile}
+        />
         <div class={styles.totals}>
           <span>{formatClock(elapsed())} done</span>
           <span>

@@ -99,7 +99,22 @@ src/
   survive sleep, backgrounding and reloads. Skipping intervals moves the position;
   the saved ride time is the position reached, not wall time ridden.
 
+- **Heart rate** comes from a Bluetooth strap via Web Bluetooth (`src/lib/heartRate.ts`,
+  standard Heart Rate Service 0x180D). The owner's strap is a Garmin HRM-Pro (ANT+ and
+  Bluetooth, two Bluetooth connections). Their phone is probably Android (they use Google
+  Fit; not confirmed). Chrome on Android supports Web Bluetooth; Safari on iOS doesn't,
+  so the heart rate UI hides itself there. Readings
+  are stored every 5 s of ride position on the active ride, then summarised (avg/max)
+  with the samples on the saved record. Pairing must start from a tap; reconnecting
+  to a remembered strap uses `navigator.bluetooth.getDevices()` where the browser has it.
+- **Google Fit sync isn't possible from a web app**: the Fit APIs are shut down at the
+  end of 2026, and Health Connect is Android-app only. The cloud Google Health API can
+  write workouts but needs an owner-created Google Cloud project and OAuth client.
+
 ## Verifying UI changes
+
+In dev, `pzt.simulateHeartRate()` in the console fakes a connected strap, since the
+browser pane has no real Bluetooth device to pair with.
 
 The player (`src/pages/PlayerPage.tsx`) is the screen that matters most: it has to be
 readable at arm's length on a handlebar mount. Check changes at 375×812 portrait and
@@ -108,7 +123,9 @@ readable at arm's length on a handlebar mount. Check changes at 375×812 portrai
 
 ## Ideas not built yet
 
-- Optional Bluetooth power meter / FTMS connection (Web Bluetooth) to show live watts.
+- Bluetooth power / FTMS from the bike to show live watts (same approach as heart rate).
+- Heart rate zones (needs max or threshold HR) and HR drift analysis.
+- Export rides (TCX/FIT with heart rate) or write workouts to the Google Health API.
 - Adjust a plan in place (change days/week mid-program) instead of restarting.
 - Track wall time actually ridden separately from position, for skip-heavy rides.
 - Ramp test as an alternative to the 20-minute FTP test.

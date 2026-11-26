@@ -88,6 +88,19 @@
     color var(--duration-slow) var(--ease-standard);
 }
 
+.hero {
+  position: relative;
+  /* Room for the heart rate badge above the zone label. */
+  padding-top: calc(var(--space-3) + 44px);
+}
+
+/* Heart rate sits in the hero's corner so it reads at a glance with the zone. */
+.heartRate {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+}
+
 .heroPaused {
   background: color-mix(in srgb, var(--zone) 55%, var(--color-surface-sunken));
 }

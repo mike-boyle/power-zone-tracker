@@ -11,6 +11,7 @@ import { Dialog } from '../ui/Dialog';
 import { Toggle } from '../ui/Controls';
 import { FtpForm } from '../components/FtpForm';
 import { ZoneTable } from '../components/ZoneTable';
+import { HeartRateMonitorCard } from '../components/HeartRateMonitorCard';
 import styles from './YouPage.module.css';
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
@@ -114,6 +115,9 @@ export function YouPage() {
         </Show>
       </Card>
 
+      <SectionTitle>Heart rate monitor</SectionTitle>
+      <HeartRateMonitorCard />
+
       <SectionTitle>History</SectionTitle>
       <Card>
         <div class={styles.weekStats}>
@@ -146,6 +150,7 @@ export function YouPage() {
                     <span class={styles.muted}>
                       {formatDate(record.finishedAt)} · {formatClock(record.seconds)} · {record.tss}{' '}
                       TSS
+                      <Show when={record.heartRate}>{(hr) => <> · ♥ {hr().avg} avg</>}</Show>
                     </span>
                   </a>
                 </li>

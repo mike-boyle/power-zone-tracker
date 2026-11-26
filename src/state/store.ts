@@ -3,6 +3,7 @@ import { getRide } from '../domain/library';
 import { generatePlan, type PlannedRide, type TestOptions } from '../domain/plan';
 import { getProgram, type DaysPerWeek } from '../domain/programs';
 import { estimateTss } from '../domain/tss';
+import { HR_SAMPLE_SECONDS, summarizeHeartRate } from '../domain/heartRate';
 import { ftpFromTwentyMinute } from '../domain/zones';
 import { loadState, newId, normalize, saveState } from './storage';
 import {
@@ -11,6 +12,7 @@ import {
   type AppState,
   type FtpEntry,
   type PlanRef,
+  type RecordedHeartRate,
   type RideRecord,
   type Settings,
 } from './types';
@@ -204,6 +206,34 @@ export function discardRide(): void {
   });
 }
 
+/**
+ * Store a heart rate reading for the HR_SAMPLE_SECONDS bucket at this ride
+ * position. The first reading in a bucket wins, so this saves at most once per
+ * bucket rather than on every tick.
+ */
+export function recordHeartRate(elapsedSeconds: number, bpm: number): void {
+  const bucket = Math.floor(elapsedSeconds / HR_SAMPLE_SECONDS);
+  const existing = state.activeRide?.hr?.[bucket];
+  if (!state.activeRide || (existing !== undefined && existing !== null)) return;
+  commit((s) => {
+    const ride = s.activeRide;
+    if (!ride) return;
+    const hr = (ride.hr ??= []);
+    while (hr.length < bucket) hr.push(null);
+    hr[bucket] = bpm;
+  });
+}
+
+function recordedHeartRate(
+  samples: readonly (number | null)[] | undefined,
+  seconds: number,
+): RecordedHeartRate | undefined {
+  if (!samples) return undefined;
+  const kept = samples.slice(0, Math.ceil(seconds / HR_SAMPLE_SECONDS));
+  const summary = summarizeHeartRate(kept);
+  return summary ? { ...summary, samples: kept, interval: HR_SAMPLE_SECONDS } : undefined;
+}
+
 /** Save the active ride to history and clear it. Returns the new record id. */
 export function finishRide(elapsedSeconds: number): string | null {
   const active = state.activeRide;
@@ -215,6 +245,7 @@ export function finishRide(elapsedSeconds: number): string | null {
   }
   const total = ride.minutes * 60;
   const seconds = Math.min(total, Math.max(0, Math.round(elapsedSeconds)));
+  const heartRate = recordedHeartRate(unwrap(active).hr, seconds);
   const record: RideRecord = {
     id: newId(),
     rideId: ride.id,
@@ -225,6 +256,7 @@ export function finishRide(elapsedSeconds: number): string | null {
     completed: seconds >= total - 1,
     ftp: state.settings.ftp,
     ...(active.planRef ? { planRef: { ...active.planRef } } : {}),
+    ...(heartRate ? { heartRate } : {}),
   };
   commit((s) => {
     s.history.push(record);

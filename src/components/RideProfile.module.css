@@ -25,6 +25,24 @@
   opacity: 0.3;
 }
 
+.hrHalo,
+.hrLine {
+  fill: none;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.hrHalo {
+  stroke: var(--color-surface);
+  stroke-width: 4;
+  opacity: 0.8;
+}
+
+.hrLine {
+  stroke: var(--color-heart);
+  stroke-width: 2;
+}
+
 .cursor {
   stroke: var(--color-text);
   stroke-width: 2;

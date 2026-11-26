@@ -65,6 +65,20 @@ function Summary(props: { record: RideRecord; ride: Ride }) {
             <dt>FTP used</dt>
             <dd>{props.record.ftp ? `${props.record.ftp} W` : '—'}</dd>
           </div>
+          <Show when={props.record.heartRate}>
+            {(hr) => (
+              <>
+                <div>
+                  <dt>Avg HR</dt>
+                  <dd class={styles.heart}>{hr().avg}</dd>
+                </div>
+                <div>
+                  <dt>Max HR</dt>
+                  <dd class={styles.heart}>{hr().max}</dd>
+                </div>
+              </>
+            )}
+          </Show>
         </dl>
         <Show when={!props.record.completed}>
           <p class={styles.partial}>
@@ -83,8 +97,14 @@ function Summary(props: { record: RideRecord; ride: Ride }) {
           <RideProfile
             segments={props.ride.segments}
             elapsed={props.record.completed ? undefined : props.record.seconds}
+            heartRate={props.record.heartRate}
             class={styles.profile}
           />
+          <Show when={props.record.heartRate}>
+            <p class={styles.hrLegend}>
+              <span class={styles.hrSwatch} /> Heart rate
+            </p>
+          </Show>
           <TimeInZones segments={props.ride.segments} upTo={props.record.seconds} />
         </div>
       </Card>

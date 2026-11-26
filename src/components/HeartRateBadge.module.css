@@ -1,0 +1,56 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+  min-height: 40px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  color: inherit;
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.connect {
+  font-size: var(--text-sm);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  flex: none;
+}
+
+.value {
+  font-size: var(--text-2xl);
+  line-height: 1;
+  min-width: 2ch;
+}
+
+.beat {
+  animation: beat 1s ease-in-out infinite;
+}
+
+.waiting {
+  animation: fade 1.4s ease-in-out infinite;
+}
+
+@keyframes beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.18);
+  }
+  30% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fade {
+  50% {
+    opacity: 0.35;
+  }
+}
