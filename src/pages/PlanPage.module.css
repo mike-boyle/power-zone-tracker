@@ -1,0 +1,121 @@
+.empty {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.muted {
+  color: var(--color-text-muted);
+}
+
+.summary {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.legendRow {
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1-5);
+}
+
+.swatchPlanned,
+.swatchRidden {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.swatchPlanned {
+  background: color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+
+.swatchRidden {
+  background: var(--color-success);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.stats dt {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.stats dd {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.of {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+}
+
+.week {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.weekHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: var(--space-2) var(--space-4);
+  cursor: pointer;
+  list-style: none;
+}
+
+.weekHead::-webkit-details-marker {
+  display: none;
+}
+
+.weekTitle {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-weight: var(--weight-bold);
+}
+
+.kind {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-muted);
+}
+
+.weekMeta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.check {
+  color: var(--color-success);
+  font-weight: var(--weight-bold);
+}
+
+.rides {
+  padding: 0 var(--space-4) var(--space-2);
+}

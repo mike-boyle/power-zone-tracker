@@ -1,0 +1,39 @@
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-tabbar);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  height: calc(var(--tabbar-height) + var(--safe-bottom));
+  padding: 0 var(--safe-right) var(--safe-bottom) var(--safe-left);
+  background: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  backdrop-filter: saturate(1.4) blur(16px);
+  -webkit-backdrop-filter: saturate(1.4) blur(16px);
+  border-top: 1px solid var(--color-border);
+}
+
+.tab {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: var(--space-0-5);
+  color: var(--color-text-subtle);
+  text-decoration: none;
+  font-size: var(--text-2xs);
+  font-weight: var(--weight-semibold);
+}
+
+.on {
+  color: var(--color-text);
+}
+
+.icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.label {
+  letter-spacing: 0.02em;
+}

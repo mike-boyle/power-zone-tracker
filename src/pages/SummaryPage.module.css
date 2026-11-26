@@ -1,0 +1,81 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.stats dt {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.stats dd {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.partial {
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
+  color: var(--color-warning);
+  font-weight: var(--weight-semibold);
+}
+
+.visuals {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.profile svg {
+  height: 64px;
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.testForm {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.formTitle {
+  font-size: var(--text-lg);
+}
+
+.kjRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.preview {
+  font-size: var(--text-md);
+}
+
+.result {
+  display: grid;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.resultLabel {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-weight: var(--weight-semibold);
+}
+
+.resultValue {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-heavy);
+  font-variant-numeric: tabular-nums;
+}

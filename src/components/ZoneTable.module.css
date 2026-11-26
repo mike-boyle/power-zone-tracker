@@ -1,0 +1,32 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table td {
+  padding: var(--space-1-5) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.table tr:first-child td {
+  border-top: none;
+}
+
+.name {
+  padding-left: var(--space-3) !important;
+  font-weight: var(--weight-medium);
+}
+
+.pct {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  text-align: right;
+}
+
+.watts {
+  text-align: right;
+  font-weight: var(--weight-semibold);
+  white-space: nowrap;
+  padding-left: var(--space-3) !important;
+}

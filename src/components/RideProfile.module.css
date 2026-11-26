@@ -1,0 +1,39 @@
+.wrap {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.svg {
+  width: 100%;
+  height: 56px;
+  overflow: visible;
+}
+
+.bar {
+  transition: opacity var(--duration-slow) var(--ease-standard);
+}
+
+.future {
+  opacity: 1;
+}
+
+.current {
+  opacity: 1;
+}
+
+.past {
+  opacity: 0.3;
+}
+
+.cursor {
+  stroke: var(--color-text);
+  stroke-width: 2;
+}
+
+.axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-2xs);
+  color: var(--color-text-subtle);
+  font-variant-numeric: tabular-nums;
+}

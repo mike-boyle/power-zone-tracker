@@ -1,0 +1,74 @@
+.page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: calc(var(--safe-top) + var(--space-4)) calc(var(--safe-right) + var(--space-4))
+    calc(var(--tabbar-height) + var(--safe-bottom) + var(--space-8))
+    calc(var(--safe-left) + var(--space-4));
+}
+
+.withFooter {
+  padding-bottom: calc(var(--tabbar-height) + var(--safe-bottom) + var(--space-12) + 72px);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  margin-bottom: var(--space-4);
+}
+
+.back {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  margin-left: calc(var(--space-2) * -1);
+  border-radius: 50%;
+  color: var(--color-text);
+}
+
+.back:active {
+  background: var(--color-surface-sunken);
+}
+
+.titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.main {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--tabbar-height) + var(--safe-bottom));
+  z-index: var(--z-sticky);
+  padding: var(--space-3) calc(var(--safe-right) + var(--space-4)) var(--space-3)
+    calc(var(--safe-left) + var(--space-4));
+  background: linear-gradient(to top, var(--color-bg) 70%, transparent);
+}
+
+.footerInner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: grid;
+  gap: var(--space-2);
+}
